@@ -6,24 +6,32 @@ import './App.css'
 const App: React.FC = () => {
 
 
-  interface userInterface {
+  interface UserInterface {
     name: string;
     age: string;
     job: string;
   }
 
-  const [usersState, setUsersState] = useState<{ currentUser: userInterface }>({
+  interface AllUsersInterface {
+    currentUser: UserInterface
+    allUsers: Array<UserInterface>
+  }
+
+
+  const [usersState, setUsersState] = useState<AllUsersInterface>({
     currentUser: {
       name: "",
       age: "",
       job: ""
-    }
+    },
+    allUsers: []
   })
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
     console.log(usersState)
 
     setUsersState({
+      ...usersState,
       currentUser: {
         ...usersState.currentUser,
         [e.target.name]: e.target.value
@@ -31,12 +39,36 @@ const App: React.FC = () => {
     })
     console.log(usersState)
 
+  }
+
+  const submitHandler = (e: React.SyntheticEvent): void => {
+    e.preventDefault()
+
+    setUsersState({
+
+      currentUser: {
+        name: "",
+        age: "",
+        job: ""
+      },
+      allUsers: [...usersState.allUsers, usersState.currentUser]
+    })
 
   }
 
-  const submitHandler= (e: React.SyntheticEvent): void =>{
-e.preventDefault()
-  }
+  console.log(usersState)
+
+
+  const userlist = usersState.allUsers.map((user, index) => (
+
+    
+      <div key={index}>
+        <h2>{user.name}</h2>
+        <h2>{user.job}</h2>
+        <h2>{user.age}</h2>
+      </div>
+    )
+  )
 
   return (
     <div className="container">
@@ -70,6 +102,7 @@ e.preventDefault()
         />
         <button type='submit'>Add user</button>
       </form>
+      {userlist}
     </div>
   )
 }
