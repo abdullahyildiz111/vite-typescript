@@ -1,16 +1,10 @@
 import React, { useState } from 'react'
-import reactLogo from './assets/react.svg'
 import './App.css'
+import User, {UserInterface} from './components/User';
 
 
 const App: React.FC = () => {
 
-
-  interface UserInterface {
-    name: string;
-    age: string;
-    job: string;
-  }
 
   interface AllUsersInterface {
     currentUser: UserInterface
@@ -22,7 +16,8 @@ const App: React.FC = () => {
     currentUser: {
       name: "",
       age: "",
-      job: ""
+      job: "",
+      deleteUser: () => {}
     },
     allUsers: []
   })
@@ -49,7 +44,8 @@ const App: React.FC = () => {
       currentUser: {
         name: "",
         age: "",
-        job: ""
+        job: "",
+        deleteUser: () => {}
       },
       allUsers: [...usersState.allUsers, usersState.currentUser]
     })
@@ -58,22 +54,44 @@ const App: React.FC = () => {
 
   console.log(usersState)
 
+  const deleteHandler = (index: number) => {
+    let filteredUsers = usersState.allUsers.filter((user, i ) => (i !== index))
+
+    setUsersState({
+      currentUser: {
+        name: "",
+        age: "",
+        job: "",
+        deleteUser: () => {}
+      },
+      allUsers: filteredUsers
+    })
+  }
 
   const userlist = usersState.allUsers.map((user, index) => (
 
-    
-      <div key={index}>
-        <h2>{user.name}</h2>
-        <h2>{user.job}</h2>
-        <h2>{user.age}</h2>
-      </div>
-    )
+
+    // <div key={index}>
+    //   <h2>{user.name}</h2>
+    //   <h2>{user.job}</h2>
+    //   <h2>{user.age}</h2>
+    //   <button onClick={() => { deleteHandler(user.name) }}>delete</button>
+      <User 
+      key={index} 
+      name={user.name} 
+      job={user.job} 
+       age={user.age} 
+       deleteUser={() => { deleteHandler(index) } }
+       />
+
+    // </div>
+  )
   )
 
   return (
     <div className="container">
       <h1>React with typescript</h1>
-      <form onSubmit={submitHandler}>
+      <form className='card' onSubmit={submitHandler}>
         <label htmlFor="username" >Name</label>
         <input
           id="username"
@@ -100,7 +118,7 @@ const App: React.FC = () => {
           name="age"
           onChange={changeHandler}
         />
-        <button type='submit'>Add user</button>
+        <button type='submit' className='submitBtn'>Add user</button>
       </form>
       {userlist}
     </div>

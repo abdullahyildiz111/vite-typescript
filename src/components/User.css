@@ -1,0 +1,25 @@
+
+.row {
+ display: flex;
+ align-items: center;
+}
+
+.row h3 {
+  margin: 0 ;
+  margin-right: 10px;
+}
+
+.row p {
+  margin: 5px ;
+}
+
+.deleteBtn {
+  background-color: red;
+  color: antiquewhite;
+  padding: 10px 15px;
+  border: 1px solid grey;
+  border-radius: 5px;
+  margin-top: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
